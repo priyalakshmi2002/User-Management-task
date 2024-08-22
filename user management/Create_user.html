@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create User</title>
+  <link rel="stylesheet" href="create_user.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <ul class="sidebar-menu">
+      <li><button onclick="showCreateUser()">New User</button></li>
+      <li><button onclick="showViewUsers()">View Users</button></li>
+      <li><button onclick="showUpdateUser()">Update User</button></li>
+      <li><button onclick="showCreateGroup()">Create Group</button></li>
+      <li><button onclick="showViewGroups()">View Groups</button></li>
+      <li><button onclick="showRoleManagement()">Role Management</button></li>
+    </ul>
+  </aside>
+
+  <main>
+    <button onclick="window.location.href='home_page.html'" class="back-button">Back</button>
+    
+    <div class="intro-container" id="create-user-section">
+      <h2 class="intro-title">Create a New User</h2>
+      <form id="create-user-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="username">Username: <span class="required-asterisk">*</span></label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address: <span class="required-asterisk">*</span></label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="first-name">First Name: <span class="required-asterisk">*</span></label>
+          <input type="text" id="first-name" name="first-name" required>
+        </div>
+        <div class="form-group">
+          <label for="last-name">Last Name: <span class="required-asterisk">*</span></label>
+          <input type="text" id="last-name" name="last-name" required>
+        </div>
+        <button type="submit" class="create-user-button">Add User</button>
+      </form>
+      <div id="success-message" class="success-message" style="display: none;">User added successfully!</div>
+    </div>
+
+    <div id="view-users-section" class="view-users-section" style="display: none;">
+      <div id="deletemsg" style="visibility: hidden;">User deleted successfully!</div>
+      <h2 class="intro-title">View Users</h2>
+      <div class="table-container">
+        <table id="user-table">
+          <thead>
+            <tr>
+              <th class="username">Username</th>
+              <th class="email">Email Address</th>
+              <th class="first-name">First Name</th>
+              <th class="last-name">Last Name</th>
+              <th class="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="user-list">
+            <!-- User list items will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="update-user-section" style="display: none;">
+      <div class="update-container">
+      <h2 class="introupdatetitle">Update User</h2>
+      <form id="update-user-form" onsubmit="handleUpdateSubmit(event)">
+        <div class="form-group">
+          <label for="select-user">Select User:</label>
+          <select id="select-user" onchange="populateUpdateForm()">
+            <option value="">Select a user</option>
+            <!-- Options will be dynamically added here -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="update-username">Username: <span class="required-asterisk">*</span></label>
+          <input type="text" id="update-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="update-email">Email Address: <span class="required-asterisk">*</span></label>
+          <input type="email" id="update-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="update-first-name">First Name: <span class="required-asterisk">*</span></label>
+          <input type="text" id="update-first-name" name="first-name" required>
+        </div>
+        <div class="form-group">
+          <label for="update-last-name">Last Name: <span class="required-asterisk">*</span></label>
+          <input type="text" id="update-last-name" name="last-name" required>
+        </div>
+        <input type="hidden" id="update-index">
+        <button type="submit" class="update-user-button">Update</button>
+      </form>
+      <div id="update-success-message" class="success-message" style="display: none;">User updated successfully!</div>
+     </div>
+    </div>
+
+    <div id="create-group-section" class="introgrp-container" style="display: none;">
+      <div class="groupCreation">
+          <div class="introgrp1-title">Create Group</div>
+          <form id="create-groupsection-form">
+              <div class="form-group1">
+                  <label for="group-name">Group Name <span class="required-asterisk">*</span></label>
+                  <input type="text" id="group-name" name="group-name" required>
+              </div>
+              <button type="submit" class="create-group1-button">Create Group</button>
+          </form>
+          <div id="create-group-success" class="success-message" style="display: none;">Group created successfully</div>
+      </div>
+
+      <div id="add-users-to-group-section">
+          <div class="groupCreation1">
+              <div class="introgrp2-title">Add Users to Group</div>
+              <form id="add-users-form">
+                  <div class="form-group2">
+                      <label for="group-select">Select Group <span class="required-asterisk">*</span></label>
+                      <select id="group-select" name="group-select" required>
+                          <!-- Groups options will be dynamically inserted here -->
+                      </select>
+                  </div>
+                  <div class="form-group3">
+                      <label for="user-select">Select Users <span class="required-asterisk">*</span></label>
+                      <select id="user-select" name="user-select" multiple required>
+                          <!-- User options will be dynamically inserted here -->
+                      </select>
+                  </div>
+                  <button type="submit" class="create-group1-button">Add Users to Group</button>
+              </form>
+              <div id="add-users-success" class="success-message" style="display: none;">User added successfully</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- View Groups Section -->
+    <div id="view-groups-section" class="introgrp-container" style="display:none;">
+      <div class="introgrp3-title">View Groups and Users</div>
+        <div class="table-container">
+          <table id="groups-users-table">
+              <thead>
+                  <tr>
+                      <th>Group Name</th>
+                      <th>User Name</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              <tbody id="groups-users-list">
+                  <!-- Groups and Users will be dynamically inserted here -->
+              </tbody>
+          </table>
+        </div>
+  </div>
+  <!-- Role Management Section -->
+  <div id="role-management-section" style="display: none;">
+    <div class="role-creation">
+      <h2>Create Role</h2>
+      <form id="create-role-form">
+        <div class="form-group">
+          <label for="role-name">Role Name: <span class="required-asterisk">*</span></label>
+          <input type="text" id="role-name" name="role-name" required>
+        </div>
+        <div class="form-group">
+          <label for="role-description">Description: <span class="required-asterisk">*</span></label>
+          <input type="text" id="role-description" name="role-description" required>
+        </div>
+        <button type="submit" class="create-role-button">Create Role</button>
+      </form>
+      <div id="role-create-success" class="success-message" style="display: none;">Role created successfully!</div>
+    </div>
+
+    <div class="view-roles">
+      <h2>View Roles</h2>
+      <div class="table-container">
+        <table id="roles-table">
+          <thead>
+            <tr>
+              <th>Role Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="roles-list">
+            <!-- Roles will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </main>
+  <script src="Create_userpage.js"></script>
+</body>
+</html>
